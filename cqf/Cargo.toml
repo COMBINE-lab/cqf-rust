@@ -1,0 +1,10 @@
+[package]
+name = "cqf"
+version = "0.1.0"
+authors = ["rob-p <rob-p@users.noreply.github.com>"]
+links = "libcqf"
+
+[build-dependencies]
+bindgen = "0.26.3"
+
+[dependencies]
