@@ -25,7 +25,7 @@ OBJDIR=obj
 CC ?= gcc -std=c11
 LD ?= gcc 
 
-CXXFLAGS = -Wall $(DEBUG) $(PROFILE) $(OPT) $(ARCH) -m64 -I. -Iinclude 
+CXXFLAGS = -Wall $(DEBUG) $(PROFILE) $(OPT) $(ARCH) -m64 -I. -Iinclude -fPIC
 
 LDFLAGS = $(DEBUG) $(PROFILE) -lm -lpthread -lssl -lcrypto -ldl
 
