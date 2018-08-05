@@ -4,7 +4,9 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
-    println!("cargo:rustc-link-lib=cqf");
+    println!("cargo:rustc-link-search=native=./c_cqf");
+    println!("cargo:libdir=./c_cqf");
+    println!("cargo:rustc-link-lib=static=cqf");
 
     let bindings = bindgen::Builder::default()
         .clang_arg("-I./c_cqf/include")

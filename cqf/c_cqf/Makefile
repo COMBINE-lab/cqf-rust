@@ -1,4 +1,4 @@
-TARGETS=test test_threadsafe bm
+TARGETS=test test_threadsafe bm libcqf.a
 
 ifdef D
 	DEBUG=-g
@@ -22,12 +22,12 @@ LOC_INCLUDE=include
 LOC_SRC=src
 OBJDIR=obj
 
-CC ?= cc -std=c11
-LD ?= cc -std=c11
+CC ?= gcc -std=c11
+LD ?= gcc 
 
 CXXFLAGS = -Wall $(DEBUG) $(PROFILE) $(OPT) $(ARCH) -m64 -I. -Iinclude 
 
-LDFLAGS = $(DEBUG) $(PROFILE) -lpthread -lssl -lcrypto -lm
+LDFLAGS = $(DEBUG) $(PROFILE) -lm -lpthread -lssl -lcrypto -ldl
 
 #
 # declaration of dependencies
@@ -45,6 +45,9 @@ test_threadsafe:		$(OBJDIR)/test_threadsafe.o $(OBJDIR)/gqf.o \
 
 bm:									$(OBJDIR)/bm.o $(OBJDIR)/gqf.o $(OBJDIR)/gqf_file.o \
 										$(OBJDIR)/zipf.o $(OBJDIR)/hashutil.o
+
+libcqf.a: $(OBJDIR)/gqf.o $(OBJDIR)/gqf_file.o $(OBJDIR)/hashutil.o
+	ar rcs libcqf.a $(OBJDIR)/gqf.o $(OBJDIR)/gqf_file.o $(OBJDIR)/hashutil.o
 
 # dependencies between .o files and .h files
 
@@ -66,10 +69,6 @@ $(OBJDIR)/hashutil.o:					$(LOC_SRC)/hashutil.c $(LOC_INCLUDE)/hashutil.h
 #
 # generic build rules
 #
-
-$(TARGETS):
-	$(LD) $^ -o $@ $(LDFLAGS)
-
 $(OBJDIR)/%.o: $(LOC_SRC)/%.cc | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) $(INCLUDE) $< -c -o $@
 
